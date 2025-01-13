@@ -8,7 +8,6 @@ const PeoplePage = () => {
   const [people, setPeople] = useState<Person[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedPerson, setSelectedPerson] = useState<string | null>(null);
 
   useEffect(() => {
     getPeople()
@@ -19,10 +18,6 @@ const PeoplePage = () => {
       .catch(() => setError('Failed to load people data'))
       .finally(() => setIsLoading(false));
   }, []);
-
-  const handleRowClick = (name: string) => {
-    setSelectedPerson(prev => (prev === name ? null : name));
-  };
 
   return (
     <div className="block">
@@ -41,11 +36,7 @@ const PeoplePage = () => {
         )}
 
         {!isLoading && !error && people.length > 0 && (
-          <PeopleTable
-            people={people}
-            selectedPerson={selectedPerson}
-            onRowClick={handleRowClick}
-          />
+          <PeopleTable people={people} />
         )}
       </div>
     </div>

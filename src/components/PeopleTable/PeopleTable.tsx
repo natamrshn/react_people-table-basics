@@ -1,18 +1,16 @@
 import React from 'react';
 import { Person } from '../../types/Person';
 import { PersonLink } from '../PersonLink/PersonLink';
+import classNames from 'classnames';
+import { useParams } from 'react-router-dom';
 
 interface PeopleTableProps {
   people: Person[];
-  selectedPerson: string | null;
-  onRowClick: (name: string) => void;
 }
 
-export const PeopleTable: React.FC<PeopleTableProps> = ({
-  people,
-  selectedPerson,
-  onRowClick,
-}) => {
+export const PeopleTable: React.FC<PeopleTableProps> = ({ people }) => {
+  const { slug } = useParams();
+
   return (
     <table
       data-cy="peopleTable"
@@ -33,10 +31,9 @@ export const PeopleTable: React.FC<PeopleTableProps> = ({
           <tr
             key={person.name}
             data-cy="person"
-            className={
-              person.name === selectedPerson ? 'has-background-warning' : ''
-            }
-            onClick={() => onRowClick(person.name)}
+            className={classNames({
+              'has-background-warning': slug === person.slug,
+            })}
           >
             <td>
               <PersonLink person={person} />
